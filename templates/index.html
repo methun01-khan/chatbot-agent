@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced AI Chatbot - Next Gen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <!-- Header with Glass Effect -->
+        <header class="glass-header">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="50" cy="50" r="45" fill="url(#gradient1)"/>
+                        <circle cx="35" cy="40" r="8" fill="white"/>
+                        <circle cx="65" cy="40" r="8" fill="white"/>
+                        <path d="M 30 65 Q 50 75 70 65" stroke="white" stroke-width="5" fill="none" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>🧝 ELF</h1>
+                    <p class="tagline">Enhanced Learning Friend - Your Intelligent AI Companion</p>
+                </div>
+            </div>
+            
+            <div class="header-badges">
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    <span>Online & Ready</span>
+                </div>
+                <div class="mode-indicator mode-normal" id="modeIndicator" style="display: none;">💬 Chat Mode</div>
+            </div>
+        </header>
+
+        <!-- Sentiment Display with Animation -->
+        <div class="sentiment-display glass" id="sentimentIndicator">
+            <div class="sentiment-icon" id="sentimentEmoji">😐</div>
+            <div class="sentiment-info">
+                <h3 id="sentimentText">Neutral</h3>
+                <div class="sentiment-bar">
+                    <div class="sentiment-fill" id="sentimentFill"></div>
+                </div>
+                <p class="sentiment-score" id="sentimentScore">0.0</p>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Chat Area -->
+            <div class="chat-section glass">
+                <div class="chat-header">
+                    <div class="chat-title">
+                        <span class="chat-icon">💬</span>
+                        <h3>Conversation</h3>
+                    </div>
+                    <div class="chat-actions">
+                        <button class="icon-btn" id="exportBtn" title="Export Chat">📥</button>
+                        <button class="icon-btn" id="settingsBtn" title="Settings">⚙️</button>
+                    </div>
+                </div>
+                
+                <div class="chat-box" id="chatBox">
+                    <div class="message bot-message">
+                        <div class="avatar bot-avatar">🧝</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <strong>ELF (Enhanced Learning Friend)</strong>
+                                <span class="timestamp">Just now</span>
+                            </div>
+                            <div class="message-text">
+                                Hey there, friend! 👋 I'm ELF - your Enhanced Learning Friend!
+                                
+                                I'm here to be your intelligent companion. We can:
+                                
+                                🔍 <strong>Search the Web</strong> - I'll find anything you need with AI-powered summaries
+                                📝 <strong>Summarize Content</strong> - Just give me a URL or text
+                                🌤️ <strong>Check Weather</strong> - Any city, anytime
+                                📰 <strong>Get Latest News</strong> - All categories covered
+                                🔢 <strong>Solve Math</strong> - From simple to complex
+                                😊 <strong>Chat Naturally</strong> - I understand context and emotions
+                                
+                                Try asking me: <em>"search for the best AI tools"</em> or <em>"what's the weather in Tokyo?"</em>
+                                
+                                What brings you here today? Let's chat! 💬
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Typing Indicator -->
+                <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                    <div class="avatar bot-avatar">🧝</div>
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="input-container">
+                    <button class="action-btn voice-btn" id="voiceBtn" title="Voice Input">
+                        <span class="btn-icon">🎤</span>
+                    </button>
+                    <div class="input-wrapper">
+                        <input type="text" id="userInput" placeholder="Type your message here..." autocomplete="off" />
+                        <div class="input-suggestions" id="suggestions"></div>
+                    </div>
+                    <button class="action-btn tts-btn active" id="ttsBtn" title="Voice Output">
+                        <span class="btn-icon">🔊</span>
+                    </button>
+                    <button class="action-btn send-btn" id="sendBtn">
+                        <span class="btn-icon">🚀</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Analysis Panel -->
+            <div class="analysis-section glass">
+                <div class="panel-header">
+                    <h3>📊 AI Analysis</h3>
+                    <button class="toggle-btn" id="toggleAnalysis">−</button>
+                </div>
+                
+                <div class="analysis-grid">
+                    <div class="analysis-card">
+                        <div class="card-icon sentiment-icon-card">😊</div>
+                        <div class="card-content">
+                            <h4>Sentiment</h4>
+                            <p class="card-value" id="analysisSentiment">-</p>
+                        </div>
+                    </div>
+
+                    <div class="analysis-card">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-content">
+                            <h4>Intent</h4>
+                            <p class="card-value" id="analysisIntent">-</p>
+                        </div>
+                    </div>
+
+                    <div class="analysis-card">
+                        <div class="card-icon">🏷️</div>
+                        <div class="card-content">
+                            <h4>Entities</h4>
+                            <p class="card-value" id="analysisEntities">-</p>
+                        </div>
+                    </div>
+
+                    <div class="analysis-card">
+                        <div class="card-icon">🔑</div>
+                        <div class="card-content">
+                            <h4>Keywords</h4>
+                            <p class="card-value" id="analysisKeywords">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h4>⚡ Quick Actions</h4>
+                    <div class="action-chips">
+                        <button class="chip" data-action="weather in New York">🌤️ Weather</button>
+                        <button class="chip" data-action="technology news">📰 Tech News</button>
+                        <button class="chip" data-action="calculate 2^10">🔢 Calculate</button>
+                        <button class="chip" data-action="search for Python tutorials">🔍 Search</button>
+                        <button class="chip" data-action="I'm feeling great today">😊 Mood</button>
+                    </div>
+                </div>
+
+                <!-- Search Panel -->
+                <div class="search-panel">
+                    <h4>🔍 Web Search</h4>
+                    <div class="search-input-group">
+                        <input type="text" id="searchInput" placeholder="Search the web..." />
+                        <button class="search-go-btn" id="searchGoBtn">Search</button>
+                    </div>
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+
+                <!-- Summary Panel -->
+                <div class="summary-panel">
+                    <h4>📝 Text Summarizer</h4>
+                    <div class="summary-input-group">
+                        <input type="text" id="summaryUrlInput" placeholder="Paste URL or type text..." />
+                        <button class="summary-go-btn" id="summaryGoBtn">Summarize</button>
+                    </div>
+                    <div class="summary-options">
+                        <label>
+                            <input type="radio" name="summaryMethod" value="extractive" checked />
+                            Extractive
+                        </label>
+                        <label>
+                            <input type="radio" name="summaryMethod" value="abstractive" />
+                            Abstractive
+                        </label>
+                        <label>
+                            Sentences: 
+                            <select id="summaryLength">
+                                <option value="2">2</option>
+                                <option value="3" selected>3</option>
+                                <option value="5">5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="summary-result" id="summaryResult"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Showcase -->
+        <div class="features-showcase">
+            <div class="feature-card glass" data-feature="nlp">
+                <div class="feature-icon">🧠</div>
+                <h3>Advanced NLP</h3>
+                <p>Entity recognition & intent detection</p>
+                <div class="feature-glow"></div>
+            </div>
+            
+            <div class="feature-card glass" data-feature="sentiment">
+                <div class="feature-icon">💝</div>
+                <h3>Emotion AI</h3>
+                <p>Real-time sentiment analysis</p>
+                <div class="feature-glow"></div>
+            </div>
+            
+            <div class="feature-card glass" data-feature="search">
+                <div class="feature-icon">🔍</div>
+                <h3>Web Search</h3>
+                <p>Search the entire web</p>
+                <div class="feature-glow"></div>
+            </div>
+            
+            <div class="feature-card glass" data-feature="summary">
+                <div class="feature-icon">📝</div>
+                <h3>Smart Summary</h3>
+                <p>Summarize any text or URL</p>
+                <div class="feature-glow"></div>
+            </div>
+            
+            <div class="feature-card glass" data-feature="weather">
+                <div class="feature-icon">🌈</div>
+                <h3>Live Weather</h3>
+                <p>Global weather updates</p>
+                <div class="feature-glow"></div>
+            </div>
+            
+            <div class="feature-card glass" data-feature="news">
+                <div class="feature-icon">🎯</div>
+                <h3>News Feed</h3>
+                <p>Latest headlines worldwide</p>
+                <div class="feature-glow"></div>
+            </div>
+            
+            <div class="feature-card glass" data-feature="voice">
+                <div class="feature-icon">🎙️</div>
+                <h3>Voice I/O</h3>
+                <p>Speak & listen naturally</p>
+                <div class="feature-glow"></div>
+            </div>
+            
+            <div class="feature-card glass" data-feature="math">
+                <div class="feature-icon">🔬</div>
+                <h3>Math Engine</h3>
+                <p>Complex calculations</p>
+                <div class="feature-glow"></div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel glass">
+            <button class="ctrl-btn" id="historyBtn">
+                <span class="ctrl-icon">📜</span>
+                <span class="ctrl-label">History</span>
+            </button>
+            <button class="ctrl-btn" id="statsBtn">
+                <span class="ctrl-icon">📈</span>
+                <span class="ctrl-label">Analytics</span>
+            </button>
+            <button class="ctrl-btn" id="searchHistoryBtn">
+                <span class="ctrl-icon">🔍</span>
+                <span class="ctrl-label">Searches</span>
+            </button>
+            <button class="ctrl-btn" id="summaryHistoryBtn">
+                <span class="ctrl-icon">📝</span>
+                <span class="ctrl-label">Summaries</span>
+            </button>
+            <button class="ctrl-btn" id="clearBtn">
+                <span class="ctrl-icon">🗑️</span>
+                <span class="ctrl-label">Clear</span>
+            </button>
+            <button class="ctrl-btn" id="themeBtn">
+                <span class="ctrl-icon">🎨</span>
+                <span class="ctrl-label">Theme</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

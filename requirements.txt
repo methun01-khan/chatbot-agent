@@ -1,0 +1,13 @@
+Flask==3.0.0
+flask-cors==4.0.0
+mysql-connector-python==8.2.0
+SpeechRecognition==3.10.0
+gTTS==2.4.0
+requests==2.31.0
+beautifulsoup4==4.12.2
+sympy==1.12
+nltk==3.8.1
+textblob==0.17.1
+vaderSentiment==3.3.2
+python-dateutil==2.8.2
+gunicorn==21.2.0
