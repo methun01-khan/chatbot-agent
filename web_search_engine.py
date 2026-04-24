@@ -20,7 +20,7 @@ class WebSearchEngine:
         # Initialize DuckDuckGo search
         self.ddgs = None
         try:
-            from ddgs import DDGS
+            from duckduckgo_search import DDGS
             self.ddgs = DDGS()
             print("✅ Web Search Engine initialized with DuckDuckGo API!")
         except Exception as e:
@@ -81,7 +81,7 @@ class WebSearchEngine:
     def _ddgs_api_search(self, query, num_results=5):
         """Search using DuckDuckGo API (duckduckgo-search library)"""
         try:
-            from ddgs import DDGS
+            from duckduckgo_search import DDGS
             with DDGS() as ddgs:
                 raw_results = list(ddgs.text(query, max_results=num_results))
             
